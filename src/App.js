@@ -3,24 +3,45 @@ import { useState , useEffect } from "react";
 import { Header } from "./components/Header";
 import { SearchPage } from "./components/SearchPage";
 import { BookShelfContainer } from "./components/BookShelfContainer";
+import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
+import { useDebounce } from "use-debounce";
 import * as BooksAPI from './BooksAPI'
 
+
 function App() {
+  
+  //Use-State Hooks
   const [searchQuery, setSearchQuery] = useState("");
-  const [showSearchPage, setShowSearchpage] = useState(false);
-  const [books,setBooks] = useState([]);
+  const [value] = useDebounce(searchQuery,500);
+  //const [showSearchPage, setShowSearchpage] = useState(false);
+  const [books, setBooks] = useState([]);
   const [searchResult, setSearchResult] = useState([]);
 
-  const updateBookShelf = (book, newBookShelf)=> {
+  //Helper Functions
+  const mergeBooks = searchResult.map(book => {
+    books.map(b => {
+      if (b.id === book.id) {
+        book.shelf = b.shelf;
+      }
+      return b;
+    });
+    return book;
+  });;
+
+  const updateBookShelf = (book, newBookShelf) => {
     book.shelf = newBookShelf;
-    const newBooks = books.filter((b)=> b.id !== book.id);
+    const newBooks = books.filter((b) => b.id !== book.id);
     setBooks([...newBooks, book]);
-    BooksAPI.update(book,newBookShelf);
+    BooksAPI.update(book, newBookShelf);
   }
+  
+  // Use-Effect Hooks
+
+  //Fetch Search Results
   useEffect(()=>{
     try{
-      if(searchQuery)
-        BooksAPI.search(searchQuery).then((data)=>{
+      if(value)
+        BooksAPI.search(value).then((data)=>{
           if(data.error)
           {
             setSearchResult([]);
@@ -39,7 +60,9 @@ function App() {
 
     return(()=> setSearchResult([]));
 
-  },[searchQuery])
+  },[value]);
+
+  //Fetch Books
   useEffect(()=>{
       try {
         BooksAPI.getAll().then((data) => {
@@ -50,30 +73,39 @@ function App() {
       }
   },[]);
 
+  
   return (
-    <div className="app">
-      {showSearchPage ? (
-        <SearchPage 
-        books = {searchResult}
-        updateBookShelf = {updateBookShelf}
-        searchQuery={searchQuery} 
-        setSearchQuery={setSearchQuery} 
-        showSearchPage={showSearchPage} 
-        setShowSearchpage={setShowSearchpage}/>
-      ) : ( 
-        <div className="list-books">
-          <Header/>
-          <div className="list-books-content">
-            <div>
-              <BookShelfContainer books={books} updateBookShelf={updateBookShelf}/>
+    <Router>
+      <div className="app">
+      
+      <Switch>
+        <Route path="/search">
+            <SearchPage
+              books={searchResult}
+              updateBookShelf={updateBookShelf}
+              searchQuery={searchQuery}
+              setSearchQuery={setSearchQuery}
+              />
+        </Route>
+        <Route path="/">
+
+          <div className="list-books">
+            <Header />
+            <div className="list-books-content">
+              <div>
+                <BookShelfContainer books={books} updateBookShelf={updateBookShelf} />
+              </div>
             </div>
+            <Link to="/search">
+            <div className="open-search">
+              <a>Add a book</a>
+            </div>
+            </Link>
           </div>
-          <div className="open-search">
-            <a onClick={() => setShowSearchpage(!showSearchPage)}>Add a book</a>
-          </div>
-        </div>
-      )}
-    </div>
+        </Route>
+      </Switch>
+      </div>
+    </Router>
   );
 };
 

@@ -15,9 +15,9 @@ export const Book = ({ book , updateBookShelf}) => {
                     }}
                 ></div>
                 <div className="book-shelf-changer">
-                    <select defaultValue={book.shelf? book.shelf : "none"} 
+                    <select defaultValue={book.shelf ? book.shelf : "none"} 
                     onChange={(event)=>updateBookShelf(book,event.target.value)}>
-                        <option value="none" disabled>
+                        <option value="dis" disabled>
                             Move to...
                         </option>
                         <option value="currentlyReading">
