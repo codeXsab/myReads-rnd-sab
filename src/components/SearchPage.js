@@ -1,18 +1,18 @@
-import React from 'react'
-import { BookShelf } from './BookShelf';
-import { Link } from 'react-router-dom';
-export const SearchPage = ({ books, updateBookShelf, searchQuery, setSearchQuery }) => {
-
+import React from "react";
+import { BookShelf } from "./BookShelf";
+import { Link } from "react-router-dom";
+export const SearchPage = ({
+  books,
+  updateBookShelf,
+  searchQuery,
+  setSearchQuery,
+}) => {
   return (
     <div className="search-books">
       <div className="search-books-bar">
         <Link to="/">
-          <a
-            href="#"
-            className="close-search"
-          >
-            Close
-          </a>
+          <div className="close-search">
+          </div>
         </Link>
         <div className="search-books-input-wrapper">
           <input
@@ -26,7 +26,11 @@ export const SearchPage = ({ books, updateBookShelf, searchQuery, setSearchQuery
         </div>
       </div>
       <div className="search-books-results">
-        <BookShelf books={books} title="Search Results" updateBookShelf={updateBookShelf} />
+        <BookShelf
+          books={books}
+          title="Search Results"
+          updateBookShelf={updateBookShelf}
+        />
       </div>
     </div>
   );
