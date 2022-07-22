@@ -25,4 +25,4 @@ The project can be viewed in the browser at
 - [http://localhost:3000](http://localhost:3000)
 
 # Live Demo
-https://glittery-taffy-9ce539.netlify.app/
+https://62da471cf8b90b55e860c41b--tangerine-kitten-fee9f2.netlify.app/
