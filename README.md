@@ -5,5 +5,24 @@ MyReads is a BookList Project that fetches data from an API (provided by Udacity
 This Application supports search functionality (Search by title or author). 
 It is a Single Page Application with 2 Routes (main landing page and search page).
 
-#Live Demo
+## Installation
+
+Clone the repository, change directories, and use NPM to install the dependencies.
+
+```bash
+$ git clone https://github.com/codeXsab/myReads-rnd-sab.git
+$ npm install
+```
+
+## Usage
+
+The project can be run with
+
+- `npm start`
+
+The project can be viewed in the browser at
+
+- [http://localhost:3000](http://localhost:3000)
+
+# Live Demo
 https://glittery-taffy-9ce539.netlify.app/
