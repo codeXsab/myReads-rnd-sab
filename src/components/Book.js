@@ -1,6 +1,7 @@
 import React from "react";
 
 export const Book = ({ book, updateBookShelf }) => {
+  console.log(book);
   return (
     <div className="book">
       <div className="book-top">
@@ -30,7 +31,7 @@ export const Book = ({ book, updateBookShelf }) => {
         </div>
       </div>
       <div className="book-title">{book.title}</div>
-      <div className="book-authors">{book.author}</div>
+      <div className="book-authors">{book.authors ? book.authors.join(', ') : ''}</div>
     </div>
   );
 };
